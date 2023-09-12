@@ -145,13 +145,13 @@ static void buttonSwitchHandler(uint8_t btnId, uint8_t btnState) {
 }
 
 static void doorSwitchHandler(uint8_t btnId, uint8_t btnState) {
-  if (btnState == BTN_PRESSED) {
+  if (btnState == BTN_OPEN) {
     doorOpenState = true;
     timerDoorOpen.stop();
     return;
   }
 
-  // btnState == BTN_OPEN.
+  // btnState == BTN_PRESSED.
   doorOpenState = false;
   timerDoorOpen.stop();
   timerDoorOpen.start();
