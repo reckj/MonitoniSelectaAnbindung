@@ -42,7 +42,7 @@
 
 // Delays (in microseconds)
 #define CarrouselDELAY 500
-#define UserInputDELAY 5000
+#define UserInputDELAY 10000
 #define SleepDELAY 120000
 #define debounceButton 200
 #define debounceDoor 100
@@ -56,7 +56,7 @@
 ///////////////////////------ variables ------///////////////////////
 
 // Logic Variables
-volatile int vendingState = 0; // 0 = Sleep, 1 = Idle, 2 = Turn, 3 = Validate, 4 = Collect, 5 = Finished, 6 = Error
+volatile int vendingState = 7; // 0 = Sleep, 1 = Idle, 2 = Turn, 3 = Validate, 4 = Collect, 5 = Finished, 6 = Error, 7 = Testing
 
 volatile int item;
 
@@ -72,8 +72,10 @@ volatile bool transactionActive = false;
 volatile bool requestActive = false;
 
 // Network Variables
-const char *SSID = "ZHdK-INVX2";        // Change this to your WiFi SSID
-const char *PW = "WaLoMis03-Xd93+Agy5"; // Change this to your WiFi password
+//const char *SSID = "ZHdK-INVX2";        // Change this to your WiFi SSID
+//const char *PW = "WaLoMis03-Xd93+Agy5"; // Change this to your WiFi password
+const char *SSID = "Sol24";        // Change this to your WiFi SSID
+const char *PW = "janoschHoney"; // Change this to your WiFi password
 
 const String host = "dev.monitoni.zhdk.ch";
 const int port = 443;

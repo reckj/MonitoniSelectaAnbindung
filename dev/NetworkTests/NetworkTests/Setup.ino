@@ -50,10 +50,11 @@ void  systemSetup() {
 
   buttonSwitch.setPushDebounceInterval(debounceButton);
   doorSwitch.setPushDebounceInterval(debounceDoor);
+  
 
   Serial.println("");
   Serial.println("-------------------STARTING------------------");
   Serial.println("");
+  Serial.println("");
 
-  Serial.println("Sleep");
 }

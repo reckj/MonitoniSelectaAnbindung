@@ -1,6 +1,6 @@
 // _LOGIC_VARIABLES_
 //
-// vendingState - 0 = Sleep, 1 = Idle, 2 = Turn, 3 = Validate, 4 = Collect, 5 = Finished, 6 = Error
+// vendingState - 0 = Sleep, 1 = Idle, 2 = Turn, 3 = Validate, 4 = Collect, 5 = Finished, 6 = Error, 7 = Testing
 //
 // permission bool
 // completed  bool
@@ -179,4 +179,14 @@ void vendingError() {
 
   vendingState = 0; // Sleep
   Serial.println("Sleep");
+}
+
+void vendingTesting() {
+  //Serial.println("request");
+  long start = millis();
+  permissionRequest();
+  long delta = (millis() - start);
+  Serial.print("Delta: ");
+  Serial.println(delta);
+  //delay(1000);
 }
