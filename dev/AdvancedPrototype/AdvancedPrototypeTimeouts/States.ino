@@ -34,6 +34,7 @@
 
 
 void vendingSleep() {
+  timerSleep.stop();
   carrouselLock();
   motorOff();
   lightOff();
@@ -41,16 +42,22 @@ void vendingSleep() {
   itemLock();
 
   if (buttonTurnPushedState) {
+    timerSleep.stop();
+    timerSleep.start();
     vendingState = 1; // Idle
     Serial.println("Idle");
-    //delay()---
     return;
   }
 }
 
 
 void vendingIdle() {
-  //implement sleep timer
+  if (timerSleep.read() > SleepDELAY) {
+    timerSleep.stop();
+    vendingState = 0; // Sleep
+    Serial.println("Sleep");
+    return;
+  }
 
   carrouselLock();
   motorOff();
@@ -89,14 +96,10 @@ void vendingTurn() {
     delay(MotorTurnDELAY);
     motorOff();
     carrouselLock();
-    /*
-    if (timerButtonTurnPress.read() > UserInputDELAY) {
-      vendingState = 3; // Validate
-      Serial.println("Validate");
-      return;
-    }
-    */
-    vendingState = 2; // Validate
+    timerSleep.stop();
+    timerSleep.start();
+
+    vendingState = 1; // Idle
     Serial.println("Idle");
     return;
   }
@@ -126,14 +129,6 @@ void vendingValidate() {
     Serial.println("Collect");
     return;
   }
-
-  if (buttonTurnPushedState) {
-    requestActive = false;
-    vendingState = 1; // Idle
-    Serial.println("Idle");
-    return;
-  }
-
 }
 
 
@@ -142,6 +137,9 @@ void vendingCollect(){
   if (timerPurchaseTimeout.read() > PurchaseTimeoutDELAY) {
     timerPurchaseTimeout.stop();
     transactionActive = false;
+    timerSleep.stop();
+    timerSleep.start();
+
     vendingState = 1; // Idle
     Serial.println("Idle");
     return;
@@ -157,6 +155,7 @@ void vendingCollect(){
     itemLock();
     if( completeRequest() ) {
       timerPurchaseTimeout.stop();
+      timerServerTimeout.start();
       transactionActive = false;
       vendingState = 5; // Finished
       Serial.println("Finished");
@@ -173,10 +172,22 @@ void vendingFinished() {
   }
 
   if (!doorOpenState) {
-    closeRequest();
-    vendingState = 1; // Idle
-    Serial.println("Idle");
-    return;
+    sireneOff();
+    timerDoorOpen.stop();
+    if ( closeRequest()) {
+      timerServerTimeout.stop();
+      timerSleep.stop();
+      timerSleep.start();
+      vendingState = 1; // Idle
+      Serial.println("Idle");
+      return;
+    }
+    if (timerServerTimeout.read() > ServerTimeout) {
+      timerServerTimeout.stop();
+      vendingState = 6; // Error
+      Serial.println("Error");
+      return;
+    }
   }
 }
 
