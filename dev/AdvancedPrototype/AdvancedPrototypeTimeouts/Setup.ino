@@ -48,6 +48,9 @@ void  systemSetup() {
   pinMode(ButtonTurn_PIN, INPUT_PULLUP);
   pinMode(Door_PIN, INPUT_PULLUP);
   pinMode(ButtonOpen_PIN, INPUT_PULLUP);
+
+  pinMode(Error_GND_PIN, OUTPUT);
+  pinMode(Error_PIN, OUTPUT);
   
 
   buttonTurnSwitch.setPushDebounceInterval(debounceTurnButton);
@@ -57,6 +60,4 @@ void  systemSetup() {
   Serial.println("");
   Serial.println("-------------------STARTING------------------");
   Serial.println("");
-
-  Serial.println("Sleep");
 }

@@ -19,6 +19,7 @@
 #define CLOCK_PIN 5
 #define LATCH_PIN 6
 #define Error_PIN 8 // Error LED
+#define Error_GND_PIN 47 // Error LED
 
 // PINS IN
 #define ButtonTurn_PIN 14 // PIN IO14
@@ -45,14 +46,14 @@
 #define CarrouselDELAY 500
 #define UserInputDELAY 5000
 #define SleepDELAY 120000
-#define debounceTurnButton 200
-#define debounceOpenButton 100
+#define debounceTurnButton 50
+#define debounceOpenButton 1
 #define debounceDoor 100
 #define openDoorDELAY 100
 #define PurchaseTimeoutDELAY 60000
 #define DoorOpenSireneDELAY 10000
 #define ServerTimeout 20000
-#define MotorTurnDELAY 500
+#define MotorTurnDELAY 2500
 
 
 ///////////////////////------ variables ------///////////////////////

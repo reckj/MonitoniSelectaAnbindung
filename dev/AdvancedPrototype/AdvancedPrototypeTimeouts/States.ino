@@ -124,6 +124,7 @@ void vendingValidate() {
     requestActive = true;
   }
   else if(transactionActive) {
+    timerServerTimeout.stop();
     requestActive = false;
     vendingState = 4; // Collect
     Serial.println("Collect");
@@ -141,7 +142,7 @@ void vendingCollect(){
     timerSleep.start();
 
     vendingState = 1; // Idle
-    Serial.println("Idle");
+    Serial.println("collect --> Idle");
     return;
   }
 
@@ -179,13 +180,13 @@ void vendingFinished() {
       timerSleep.stop();
       timerSleep.start();
       vendingState = 1; // Idle
-      Serial.println("Idle");
+      Serial.println("Finished --> Idle");
       return;
     }
     if (timerServerTimeout.read() > ServerTimeout) {
       timerServerTimeout.stop();
       vendingState = 6; // Error
-      Serial.println("Error");
+      Serial.println("Error Finished");
       return;
     }
   }
@@ -201,5 +202,5 @@ void vendingError() {
   errorOn();
 
   vendingState = 0; // Sleep
-  Serial.println("Sleep");
+  Serial.println("Error --> Sleep");
 }

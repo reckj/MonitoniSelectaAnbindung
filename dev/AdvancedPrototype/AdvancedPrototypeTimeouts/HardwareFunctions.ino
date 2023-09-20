@@ -121,12 +121,14 @@ void itemLock()
 void errorOn()
 {
   errorOnState = true;
+  digitalWrite(Error_GND_PIN, LOW);
   digitalWrite(Error_PIN, HIGH);
 }
 
 void errorOff()
 {
   errorOnState = false;
+  digitalWrite(Error_GND_PIN, LOW);
   digitalWrite(Error_PIN, LOW);
 }
 

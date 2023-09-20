@@ -104,7 +104,7 @@ bool completeRequest()
   if (!client.connect("dev.monitoni.zhdk.ch", 443))
   {
     Serial.println("Connection failed");
-    return;
+    return 0;
   }
 
   // Send HTTP request
@@ -128,8 +128,7 @@ bool completeRequest()
   // Check HTTP status
   char status[32] = {0};
   client.readBytesUntil('\r', status, sizeof(status));
-  // It should be "HTTP/1.0 200 OK" or "HTTP/1.1 200 OK"
-  if (strcmp(status + 9, "200 OK") != 0)
+  if (strcmp(status, "HTTP/1.1 201 Created") != 0)
   {
     Serial.print(String("Unexpected response: "));
     Serial.println(status);
@@ -184,7 +183,7 @@ bool completeRequest()
 
 ///////////////////////------ close request ------///////////////////////
 
-void closeRequest()
+bool closeRequest()
 {
   transactionActive = false;
   permission = false;
@@ -194,7 +193,7 @@ void closeRequest()
   if (!client.connect("dev.monitoni.zhdk.ch", 443))
   {
     Serial.println("Connection failed");
-    return;
+    return 0;
   }
 
   // Send HTTP request
@@ -208,7 +207,7 @@ void closeRequest()
   {
     Serial.println(String("Failed to send request"));
     client.stop();
-    return;
+    return 0;
   }
   else
   {
@@ -219,12 +218,12 @@ void closeRequest()
   char status[32] = {0};
   client.readBytesUntil('\r', status, sizeof(status));
   // It should be "HTTP/1.0 200 OK" or "HTTP/1.1 200 OK"
-  if (strcmp(status + 9, "200 OK") != 0)
+  if (strcmp(status, "HTTP/1.1 201 Created") != 0)
   {
-    // Serial.print(String("Unexpected response: "));
-    // Serial.println(status);
+    Serial.print(String("Unexpected response: "));
+    Serial.println(status);
     client.stop();
-    return;
+    return 0;
   }
 
   // Skip HTTP headers
@@ -233,7 +232,7 @@ void closeRequest()
   {
     Serial.println(String("Invalid response"));
     client.stop();
-    return;
+    return 0;
   }
 
   // Allocate the JSON document
@@ -248,7 +247,7 @@ void closeRequest()
     Serial.print(String("deserializeJson() failed: "));
     Serial.println(error.f_str());
     client.stop();
-    return;
+    return 0;
   }
 
   while (client.available())
@@ -264,4 +263,6 @@ void closeRequest()
   */
   // Disconnect
   client.stop();
+
+  return 1;
 }
