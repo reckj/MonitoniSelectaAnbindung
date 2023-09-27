@@ -128,55 +128,37 @@ bool completeRequest()
   // Check HTTP status
   char status[32] = {0};
   client.readBytesUntil('\r', status, sizeof(status));
+  /*
+  Serial.println("");
+  Serial.println("Request Completed");
+  Serial.println("Received this from Server: ");
+  Serial.println(status);
+  Serial.println("");
+  Serial.println("");
+  */
   if (strcmp(status, "HTTP/1.1 201 Created") != 0)
   {
     Serial.print(String("Unexpected response: "));
     Serial.println(status);
     client.stop();
+    Serial.println("UNSUCCESSFUL Request");
     return 0;
   }
-
-  Serial.println(status);
 
   // Skip HTTP headers
   char endOfHeaders[] = "\r\n\r\n";
   if (!client.find(endOfHeaders))
   {
     Serial.println(String("Invalid response"));
+    Serial.println("UNSUCCESSFUL Request");
     client.stop();
     return 0;
   }
-
-  // Allocate the JSON document
-  // Use https://arduinojson.org/v6/assistant to compute the capacity.
-  const size_t capacity = JSON_OBJECT_SIZE(1) + JSON_ARRAY_SIZE(2) + 60;
-  DynamicJsonDocument doc(capacity);
-
-  // Parse JSON object
-  DeserializationError error = deserializeJson(doc, client);
-  if (error)
-  {
-    Serial.print(String("deserializeJson() failed: "));
-    Serial.println(error.f_str());
-    client.stop();
-    return 0;
-  }
-
-  while (client.available())
-  {
-    // read an incoming byte from the server and print them to serial monitor:
-    char c = client.read();
-    Serial.print(c);
-  }
-
-  // Extract values
-  // Serial.println(F("Response:"));
-  // Serial.println(doc.as<String>());
 
   // Disconnect
   client.stop();
 
-  completed = doc.as<String>();
+  Serial.println("Successful Request");
 
   return 1;
 }
@@ -219,12 +201,20 @@ bool closeRequest()
   // Check HTTP status
   char status[32] = {0};
   client.readBytesUntil('\r', status, sizeof(status));
-  // It should be "HTTP/1.0 200 OK" or "HTTP/1.1 200 OK"
+  /*
+  Serial.println("");
+  Serial.println("Request Completed");
+  Serial.println("Received this from Server: ");
+  Serial.println(status);
+  Serial.println("");
+  Serial.println("");
+  */
   if (strcmp(status, "HTTP/1.1 201 Created") != 0)
   {
     Serial.print(String("Unexpected response: "));
     Serial.println(status);
     client.stop();
+    Serial.println("UNSUCCESSFUL Request");
     return 0;
   }
 
@@ -233,38 +223,15 @@ bool closeRequest()
   if (!client.find(endOfHeaders))
   {
     Serial.println(String("Invalid response"));
+    Serial.println("UNSUCCESSFUL Request");
     client.stop();
     return 0;
   }
 
-  // Allocate the JSON document
-  // Use https://arduinojson.org/v6/assistant to compute the capacity.
-  const size_t capacity = JSON_OBJECT_SIZE(1) + JSON_ARRAY_SIZE(2) + 60;
-  DynamicJsonDocument doc(capacity);
-
-  // Parse JSON object
-  DeserializationError error = deserializeJson(doc, client);
-  if (error)
-  {
-    Serial.print(String("deserializeJson() failed: "));
-    Serial.println(error.f_str());
-    client.stop();
-    return 0;
-  }
-
-  while (client.available())
-  {
-    // read an incoming byte from the server and print them to serial monitor:
-    char c = client.read();
-    Serial.print(c);
-  }
-  /*
-    // Extract values
-    Serial.println(F("Response:"));
-    Serial.println(doc);
-  */
   // Disconnect
   client.stop();
+
+  Serial.println("Successful Request");
 
   return 1;
 }
