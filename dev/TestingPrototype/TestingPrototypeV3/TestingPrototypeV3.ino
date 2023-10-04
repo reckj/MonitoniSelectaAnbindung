@@ -26,7 +26,7 @@
 #define Door_PIN 12   // PIN IO12
 #define ButtonOpen_PIN 11   // PIN IO11
 
-// CHANNELS OUT
+// CHANNELS OUT -- See Channel Addresses on GITHUB
 #define Item_1_CH 21
 #define Item_2_CH 20
 #define Item_3_CH 19
