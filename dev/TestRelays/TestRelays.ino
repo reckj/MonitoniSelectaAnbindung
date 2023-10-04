@@ -26,7 +26,7 @@ void setup() {
 }
 
 void loop() {
-  char inputBuffer[20];
+  char inputBuffer[21];
   int pinNumber = 0;
   String command;
 
