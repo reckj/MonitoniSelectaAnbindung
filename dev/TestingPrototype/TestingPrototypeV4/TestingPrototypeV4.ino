@@ -49,7 +49,6 @@
 #define debounceTurnButton 50
 #define debounceOpenButton 1
 #define debounceDoor 100
-//#define openDoorDELAY 100
 #define openDoorDELAY 500
 #define PurchaseTimeoutDELAY 60000
 #define DoorOpenSireneDELAY 10000
