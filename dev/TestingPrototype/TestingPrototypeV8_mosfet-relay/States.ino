@@ -86,6 +86,7 @@ void vendingValidate() {
 
   if (!transactionActive) {
     permissionRequest();
+    Serial.println("didrequest");
     requestActive = true;
   }
   else if(transactionActive) {
@@ -119,7 +120,6 @@ void vendingCollect(){
   if (doorOpenState && transactionActive) {
     delay(openDoorDELAY);
     itemLock();
-    Serial.println("locked again");
     if( completeRequest() ) {
       timerPurchaseTimeout.stop();
       timerServerTimeout.start();

@@ -73,7 +73,7 @@ void vendingTurn() {
 
 void vendingValidate() {
   // Server Timeout
-  
+  /*
   if (timerServerTimeout.read() > ServerTimeout) {
     timerServerTimeout.stop();
     transactionActive = false;
@@ -82,7 +82,7 @@ void vendingValidate() {
     Serial.println("validate --> Error");
     return;
   }
-  
+  */
 
   if (!transactionActive) {
     permissionRequest();
@@ -100,6 +100,7 @@ void vendingValidate() {
 
 void vendingCollect(){
   // Purchase Timeout
+  /*
   if (timerPurchaseTimeout.read() > PurchaseTimeoutDELAY) {
     timerPurchaseTimeout.stop();
     transactionActive = false;
@@ -110,7 +111,7 @@ void vendingCollect(){
     Serial.println("collect --> idle");
     return;
   }
-
+  */
   if (!itemUnlockedState && !doorOpenState) {
     itemUnlock(item);
     return;
@@ -119,7 +120,6 @@ void vendingCollect(){
   if (doorOpenState && transactionActive) {
     delay(openDoorDELAY);
     itemLock();
-    Serial.println("locked again");
     if( completeRequest() ) {
       timerPurchaseTimeout.stop();
       timerServerTimeout.start();
@@ -133,11 +133,12 @@ void vendingCollect(){
 
 
 void vendingFinished() {
+  /*
   if (timerDoorOpen.read() > DoorOpenSireneDELAY) {
     sireneOn();
     timerDoorOpen.stop();
   }
-
+*/
   if (!doorOpenState) {
     sireneOff();
     timerDoorOpen.stop();
@@ -163,7 +164,8 @@ void vendingError() {
   carrouselLock();
   motorOff();
   lightOff();
-  sireneOff();
+  //sireneOff();
+  sireneOn();
   itemLock();
   errorOn();
 

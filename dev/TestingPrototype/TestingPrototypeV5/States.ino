@@ -119,7 +119,6 @@ void vendingCollect(){
   if (doorOpenState && transactionActive) {
     delay(openDoorDELAY);
     itemLock();
-    Serial.println("locked again");
     if( completeRequest() ) {
       timerPurchaseTimeout.stop();
       timerServerTimeout.start();
@@ -163,7 +162,7 @@ void vendingError() {
   carrouselLock();
   motorOff();
   lightOff();
-  sireneOff();
+  sireneON();
   itemLock();
   errorOn();
 
