@@ -56,7 +56,7 @@
 #define openDoorDELAY 500
 #define PurchaseTimeoutDELAY 60000
 #define DoorOpenSireneDELAY 10000
-#define ServerTimeout 20000
+#define ServerTimeout 3000
 #define MotorTurnDELAY 2500
 
 
@@ -91,7 +91,7 @@ const int port = 443;
 String url_permission = "/api/vending/permission";
 String url_complete = "/api/vending/complete";
 String url_close = "/api/vending/close";
-String monitoni_terminal = "Monitoni-Terminal: QpqxhjWttbPkOZT7rQrMDHYPldI0yIRn";
+String monitoni_terminal = "Monitoni-Terminal: oFX3HzsH9GjR8lrGNWT6L3hNGqTrGtc1";
 
 volatile bool permission = false;
 volatile bool completed = false;
