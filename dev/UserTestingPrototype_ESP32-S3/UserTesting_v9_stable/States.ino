@@ -15,6 +15,8 @@ void vendingSleep() {
   }
   if (buttonOpenPushedState) {
     vendingState = 3; // Validate
+    timerServerTimeout.stop();
+    timerServerTimeout.start();
     Serial.println("idle --> Validate");
     return;
   }
@@ -42,6 +44,8 @@ void vendingIdle() {
   }
   if (buttonOpenPushedState) {
     vendingState = 3; // Validate
+    timerServerTimeout.stop();
+    timerServerTimeout.start();
     Serial.println("idle --> Validate");
     return;
   }
@@ -78,7 +82,6 @@ void vendingTurn() {
 
 void vendingValidate() {
   // Server Timeout
-  
   if (timerServerTimeout.read() > ServerTimeout) {
     timerServerTimeout.stop();
     transactionActive = false;
@@ -106,19 +109,21 @@ void vendingValidate() {
 
 void vendingCollect(){
   // Purchase Timeout
-  if (timerPurchaseTimeout.read() > PurchaseTimeoutDELAY) {
-    timerPurchaseTimeout.stop();
+  //if (timerPurchaseTimeout.read() > PurchaseTimeoutDELAY) {
+  if (!permissionRequest()) {
+    //timerPurchaseTimeout.stop();
     transactionActive = false;
     timerSleep.stop();
     timerSleep.start();
 
-    vendingState = 1; // Idle
-    Serial.println("collect --> idle");
+    vendingState = 6; // Error
+    Serial.println("collect --> error");
     return;
   }
 
   if (!itemUnlockedState && !doorOpenState) {
     itemUnlock(item);
+    timerServerTimeout.start(); //NU
     return;
   }
 
@@ -126,12 +131,19 @@ void vendingCollect(){
     delay(openDoorDELAY);
     itemLock();
     if( completeRequest() ) {
-      timerPurchaseTimeout.stop();
-      timerServerTimeout.start();
+      //timerPurchaseTimeout.stop();
+      timerServerTimeout.stop(); //NU
+      timerServerTimeout.start(); //NU
       timerDoorOpen.start();
       transactionActive = false;
       vendingState = 5; // Finished
       Serial.println("collect --> finished");
+      return;
+    }
+    if (timerServerTimeout.read() > ServerTimeout) {
+      timerServerTimeout.stop();
+      vendingState = 6; // Error
+      Serial.println("collect --> error");
       return;
     }
   }
@@ -170,7 +182,7 @@ void vendingError() {
   //timerPurchaseTimeout.stop();
   carrouselLock();
   motorOff();
-  lightOff();
+  lightOn();
   sireneOff();
   itemLock();
 

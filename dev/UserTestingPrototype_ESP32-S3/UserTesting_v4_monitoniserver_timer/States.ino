@@ -15,6 +15,8 @@ void vendingSleep() {
   }
   if (buttonOpenPushedState) {
     vendingState = 3; // Validate
+    timerServerTimeout.stop();
+    timerServerTimeout.start();
     Serial.println("idle --> Validate");
     return;
   }
@@ -42,6 +44,8 @@ void vendingIdle() {
   }
   if (buttonOpenPushedState) {
     vendingState = 3; // Validate
+    timerServerTimeout.stop();
+    timerServerTimeout.start();
     Serial.println("idle --> Validate");
     return;
   }
@@ -93,6 +97,7 @@ void vendingValidate() {
     permissionRequest();
     Serial.println("didrequest");
     requestActive = true;
+    return;
   }
   else if(transactionActive) {
     timerServerTimeout.stop();

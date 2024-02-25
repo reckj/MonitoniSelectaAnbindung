@@ -78,7 +78,6 @@ void vendingTurn() {
 
 void vendingValidate() {
   // Server Timeout
-  
   if (timerServerTimeout.read() > ServerTimeout) {
     timerServerTimeout.stop();
     transactionActive = false;
@@ -112,8 +111,8 @@ void vendingCollect(){
     timerSleep.stop();
     timerSleep.start();
 
-    vendingState = 1; // Idle
-    Serial.println("collect --> idle");
+    vendingState = 6; // Idle
+    Serial.println("collect --> error");
     return;
   }
 
@@ -167,23 +166,19 @@ void vendingFinished() {
 
 void vendingError() {
   timerServerTimeout.stop();
-  //timerPurchaseTimeout.stop();
+  timerPurchaseTimeout.stop();
   carrouselLock();
   motorOff();
   lightOff();
   sireneOff();
   itemLock();
-
-  // Error LED
-  for (int i = 0; i < BLINKS; i++) {
+  for (int i = 0; i < 50; i++) {
     errorOn();
     delay(200);
     errorOff();
     delay(100);
   }
 
-  transactionActive = false;
-  requestActive = false;
   vendingState = 1; // Sleep
   Serial.println("Error --> Idle");
 }

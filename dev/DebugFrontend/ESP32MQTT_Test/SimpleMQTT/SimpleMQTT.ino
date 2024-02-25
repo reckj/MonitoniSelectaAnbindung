@@ -10,8 +10,8 @@
 #include <WiFi.h>
 #include <MQTT.h>
 
-const char ssid[] = "Sol24";
-const char pass[] = "janoschHoney";
+const char ssid[] = "ZHdK-INVX2";
+const char pass[] = "WaLoMis03-Xd93+Agy5";
 
 WiFiClient net;
 MQTTClient client;
