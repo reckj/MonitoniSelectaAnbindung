@@ -1,3 +1,5 @@
+// _____________Main Loop_____________
+
 void mainLoop() {
   //check wifi connection
   while (WiFi.status() != WL_CONNECTED)

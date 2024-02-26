@@ -1,3 +1,5 @@
+// _____________MoniToni Vending Machine Integration_____________
+
 // set log level NONE, ERROR, WARN, INFO, DEBUG, TRACE
 #define DEBUGLOG_DEFAULT_LOG_TRACE
 // set log level for file output NONE, ERROR, WARN, INFO, DEBUG, TRACE
@@ -13,21 +15,30 @@
 // PRINT and PRINTLN are always valid even in Release Mode
 // #define DEBUGLOG_DISABLE_LOG
 
-///////////////////////------ imports ------///////////////////////
 
+// _____________Library Imports_____________
+
+// Timer.h by Stefan Staub [1.2.1]
 #include <Timer.h>
 
+// ArduinoJson.h by Benoit Blanchon [7.0.3]
 #include <ArduinoJson.h>
+// SPI.h by Arduino [2.1.1] (Arduino IDE Version)
 #include <SPI.h>
 
+// WiFiClientSecure.h by Espressif Systems [2.0.11] (esp32 Boards Version)
 #include <WiFiClientSecure.h>
 
+// debounce.h by Aaron Kimball [0.2.0]
 #include <debounce.h>
 
+// DebugLog.h by hideakitai [0.8.3]
 #include <DebugLog.h>
+// SD.h by Arduino, SparkFun [1.2.4]
 #include <SD.h>
 
-///////////////////////------ definitions ------///////////////////////
+
+// _____________definitions_____________
 #define fs SD
 
 // PINS IN
@@ -72,7 +83,7 @@
 #define BLINKS 30 //Error LED Blinks
 
 
-///////////////////////------ variables ------///////////////////////
+// _____________variables_____________
 
 // Logic Variables
 volatile int vendingState = 0; // 0 = Sleep, 1 = Idle, 2 = Turn, 3 = Validate, 4 = Collect, 5 = Finished, 6 = Error
@@ -113,7 +124,7 @@ volatile int globalMinute;
 struct tm timeinfo;
 time_t now;
 
-///////////////////////------ instances ------///////////////////////
+// _____________instances_____________
 
 WiFiClientSecure client;
 
@@ -125,7 +136,7 @@ Timer timerServerTimeout;
 Timer timerDoorOpen;
 
 
-///////////////////////------ setup ------///////////////////////
+// _____________setup_____________
 
 void setup()
 {
@@ -133,7 +144,7 @@ void setup()
 }
 
 
-///////////////////////------ loop ------///////////////////////
+// _____________loop_____________
 
 void loop()
 {

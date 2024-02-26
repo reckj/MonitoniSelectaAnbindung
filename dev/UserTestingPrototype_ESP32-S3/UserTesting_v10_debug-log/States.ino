@@ -1,3 +1,5 @@
+// _____________State Logic_____________
+
 void vendingSleep() {
   LOG_TRACE("HARDWARE: Stop Sleep Timer");
   timerSleep.stop();
@@ -153,6 +155,8 @@ void vendingCollect(){
     //timerPurchaseTimeout.stop();  -- NOTE: see previous note
     transactionActive = false;
     LOG_DEBUG("LOGIC: transactionActive set to false");
+    requestActive = false;
+    LOG_DEBUG("LOGIC: requestActive set to false");
     timerSleep.stop();
     timerSleep.start();
     LOG_DEBUG("TIMER: Sleep Timer started");
@@ -243,15 +247,23 @@ void vendingFinished() {
 
 
 void vendingError() {
+  LOG_ERROR("ERROR: Error State entered");
   timerServerTimeout.stop();
+  LOG_DEBUG("TIMER: Server Timeout Timer stopped");
   //timerPurchaseTimeout.stop();
+  LOG_TRACE("HARDWARE: Lock Carrousel");
   carrouselLock();
+  LOG_TRACE("HARDWARE: Turn Motor Off");
   motorOff();
+  LOG_TRACE("HARDWARE: Turn Lights On");
   lightOn();
+  LOG_TRACE("HARDWARE: Turn Sirene Off");
   sireneOff();
+  LOG_TRACE("HARDWARE: Lock Items");
   itemLock();
 
   // Error LED
+  LOG_DEBUG("ERROR: Flashing Error Light");
   for (int i = 0; i < BLINKS; i++) {
     errorOn();
     delay(200);
@@ -260,7 +272,9 @@ void vendingError() {
   }
 
   transactionActive = false;
+  LOG_DEBUG("LOGIC: requestActive set to false");
   requestActive = false;
+  LOG_DEBUG("LOGIC: vendingActive set to false");
   vendingState = 1; // Sleep
-  Serial.println("Error --> Idle");
+  LOG_INFO("STATE: Switching to Sleep State");
 }

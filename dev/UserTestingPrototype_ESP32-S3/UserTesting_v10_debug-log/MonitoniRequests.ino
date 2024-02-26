@@ -1,4 +1,4 @@
-///////////////////////------ permissen request ------///////////////////////
+// _____________MoniToni-Server HTTP Requests Functions_____________
 
 bool permissionRequest()
 { 

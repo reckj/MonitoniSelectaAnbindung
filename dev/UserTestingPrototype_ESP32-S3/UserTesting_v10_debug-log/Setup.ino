@@ -1,3 +1,5 @@
+// _____________Startup Setup Function_____________
+
 void  systemSetup() {
   // Initialize Serial port
   Serial.begin(115200);
@@ -53,6 +55,8 @@ void  systemSetup() {
 
   // set file system to save every log automatically
   LOG_ATTACH_FS_AUTO(fs, filename, FILE_WRITE);
+
+  LOG_INFO("DEBUG LOG FILE  -  Set Log Level in ESP32");
 
   // set output pin mode
   LOG_TRACE("Set Output Pin Modes");
