@@ -39,10 +39,10 @@ void loop() {
 
     
   delay(2000);
-  digitalWrite(14, HIGH);
-  //control->set(13,LOW);
-  delay(5000);
-  digitalWrite(14, LOW);
+  // digitalWrite(14, HIGH);
+  // control->set(13,LOW);
+  // delay(5000);
+  // digitalWrite(14, LOW);
   
 
   /*

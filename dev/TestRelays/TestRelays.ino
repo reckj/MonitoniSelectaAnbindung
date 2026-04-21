@@ -20,9 +20,9 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Enter pin commands in the format: 'x on' or 'x off' where x is the pin number.");
 
-  control = new ShiftRegister74HC595_NonTemplate(24, DATA_PIN, CLOCK_PIN, LATCH_PIN);
-  assert(control);
-  control->setAllLow();
+  //control = new ShiftRegister74HC595_NonTemplate(24, DATA_PIN, CLOCK_PIN, LATCH_PIN);
+  //assert(control);
+  //control->setAllLow();
 }
 
 void loop() {
@@ -49,14 +49,14 @@ void loop() {
       
       if (command == "on") {
         pinMode(pinNumber, OUTPUT);
-        control->set(pinNumber, HIGH);
+        digitalWrite(pinNumber, HIGH);
         Serial.print("Pin ");
         Serial.print(pinNumber);
         Serial.println(" turned ON");
       } 
       else if (command == "off") {
         pinMode(pinNumber, OUTPUT);
-        control->set(pinNumber, LOW);
+        digitalWrite(pinNumber, LOW);
         Serial.print("Pin ");
         Serial.print(pinNumber);
         Serial.println(" turned OFF");
